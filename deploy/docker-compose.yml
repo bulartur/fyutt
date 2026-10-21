@@ -1,0 +1,40 @@
+# fyutt — the fourth stack on srv608216, next to palker, krutt_budget and
+# qr_memorial, and built the same way:
+#
+#   * no port is published to the host; palker-nginx reaches the app by
+#     container name over docker_palker-network;
+#   * that network is joined as *external*, never created or removed here;
+#   * no database and no volume: the only state is the config file.
+#
+# Run from /opt/fyutt/deploy, under sudo.
+
+name: fyutt
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: fyutt:latest
+    container_name: fyutt-app
+    restart: unless-stopped
+    environment:
+      BASE_URL: "${BASE_URL:-https://fyutt.com}"
+    volumes:
+      # Read-only: the gateway never writes its own config.
+      - ./fyutt.json:/app/config/fyutt.json:ro
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    networks:
+      - palker
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  palker:
+    external: true
+    name: docker_palker-network

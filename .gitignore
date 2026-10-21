@@ -1,0 +1,8 @@
+# Secrets never go in git.
+deploy/fyutt.json
+fyutt.json
+.env
+
+/fyutt
+/bin/
+.DS_Store

@@ -1,0 +1,21 @@
+{
+  "gate_path": "REPLACE-openssl-rand-hex-16",
+  "bots": {
+    "main": {
+      "token": "123456789:REPLACE-token-from-BotFather",
+      "webhook_secret": ""
+    }
+  },
+  "clients": [
+    {
+      "id": "example",
+      "key": "REPLACE-openssl-rand-hex-32",
+      "bot": "main",
+      "chats": [123456789],
+      "default_chat": 123456789,
+      "signed": false,
+      "per_minute": 30,
+      "parse_mode": ""
+    }
+  ]
+}
